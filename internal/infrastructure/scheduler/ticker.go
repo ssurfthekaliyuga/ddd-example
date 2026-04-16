@@ -2,8 +2,8 @@ package scheduler
 
 import (
 	"context"
-	"prompter/internal/application/usecase"
-	"prompter/internal/domain/entity"
+	"hr-bot-ddd-example/internal/application/usecase"
+	"hr-bot-ddd-example/internal/domain/entity"
 	"time"
 
 	"go.uber.org/zap"

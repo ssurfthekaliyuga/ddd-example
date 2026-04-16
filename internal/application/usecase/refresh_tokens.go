@@ -3,8 +3,8 @@ package usecase
 import (
 	"context"
 	"fmt"
-	"prompter/internal/domain/entity"
-	"prompter/internal/domain/port"
+	"hr-bot-ddd-example/internal/domain/entity"
+	"hr-bot-ddd-example/internal/domain/port"
 	"time"
 
 	"go.uber.org/zap"

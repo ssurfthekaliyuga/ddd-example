@@ -2,8 +2,8 @@ package avito
 
 import (
 	"context"
-	"prompter/internal/domain/entity"
-	"prompter/internal/domain/port"
+	"hr-bot-ddd-example/internal/domain/entity"
+	"hr-bot-ddd-example/internal/domain/port"
 )
 
 // Messenger реализует port.Messenger для Avito.

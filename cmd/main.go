@@ -1,9 +1,9 @@
 package main
 
 import (
-	"prompter/internal/domain/entity"
-	"prompter/internal/domain/port"
-	"prompter/internal/pkg/registry"
+	"hr-bot-ddd-example/internal/domain/entity"
+	"hr-bot-ddd-example/internal/domain/port"
+	"hr-bot-ddd-example/internal/pkg/registry"
 )
 
 func main() {

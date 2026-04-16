@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"hr-bot-ddd-example/internal/domain/entity"
 	"io"
 	"net/http"
 	"net/url"
-	"prompter/internal/domain/entity"
 	"strings"
 )
 

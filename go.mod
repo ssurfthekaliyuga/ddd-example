@@ -1,4 +1,4 @@
-module prompter
+module hr-bot-ddd-example
 
 go 1.26.1
 

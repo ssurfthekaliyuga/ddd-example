@@ -2,7 +2,7 @@ package port
 
 import (
 	"context"
-	"prompter/internal/domain/entity"
+	"hr-bot-ddd-example/internal/domain/entity"
 )
 
 // Chat — результат опроса чатов на площадке.
