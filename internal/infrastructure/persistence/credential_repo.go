@@ -3,7 +3,7 @@ package persistence
 import (
 	"context"
 	"fmt"
-	"prompter/ddd_reference/domain/entity"
+	"prompter/internal/domain/entity"
 	"time"
 
 	"gorm.io/gorm"

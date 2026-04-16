@@ -7,8 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"prompter/ddd_reference/domain/entity"
-	"prompter/internal/encryptionp"
+	"prompter/internal/domain/entity"
 	"strings"
 )
 
@@ -30,10 +29,7 @@ type tokenResponse struct {
 }
 
 func (r *TokenRefresher) Refresh(ctx context.Context, cred entity.Credential, decryptionKey string) (string, int, error) {
-	decryptedSecret, err := encryptionp.DecryptOAEP(cred.ClientSecretEncrypted, decryptionKey)
-	if err != nil {
-		return "", 0, fmt.Errorf("decrypt secret: %w", err)
-	}
+	decryptedSecret := fmt.Sprintf(cred.ClientSecretEncrypted, decryptionKey)
 
 	data := url.Values{}
 	data.Set("grant_type", "client_credentials")

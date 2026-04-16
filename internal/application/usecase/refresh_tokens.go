@@ -3,8 +3,8 @@ package usecase
 import (
 	"context"
 	"fmt"
-	"prompter/ddd_reference/domain/entity"
-	"prompter/ddd_reference/domain/port"
+	"prompter/internal/domain/entity"
+	port2 "prompter/internal/domain/port"
 	"time"
 
 	"go.uber.org/zap"
@@ -13,15 +13,15 @@ import (
 // RefreshTokens — use case: обновить истекающие токены всех площадок.
 // Вызывается кроном (infrastructure/scheduler), сам крон ничего не знает про токены.
 type RefreshTokens struct {
-	credStore  port.CredentialStore
-	refreshers port.TokenRefreshersRegistry
+	credStore  port2.CredentialStore
+	refreshers port2.TokenRefreshersRegistry
 	decryptKey string
 	logger     *zap.SugaredLogger
 }
 
 func NewRefreshTokens(
-	credStore port.CredentialStore,
-	refreshers port.TokenRefreshersRegistry,
+	credStore port2.CredentialStore,
+	refreshers port2.TokenRefreshersRegistry,
 	decryptKey string,
 	logger *zap.SugaredLogger,
 ) *RefreshTokens {

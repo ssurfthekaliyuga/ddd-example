@@ -2,8 +2,8 @@ package avito
 
 import (
 	"context"
-	"prompter/ddd_reference/domain/entity"
-	"prompter/ddd_reference/domain/port"
+	"prompter/internal/domain/entity"
+	"prompter/internal/domain/port"
 )
 
 // Messenger реализует port.Messenger для Avito.

@@ -2,8 +2,8 @@ package scheduler
 
 import (
 	"context"
-	"prompter/ddd_reference/application/usecase"
-	"prompter/ddd_reference/domain/entity"
+	usecase2 "prompter/internal/application/usecase"
+	"prompter/internal/domain/entity"
 	"time"
 
 	"go.uber.org/zap"
@@ -13,8 +13,8 @@ import (
 // Scheduler — чистая infrastructure: он знает КОГДА запускать, но не знает ЧТО делать.
 // Вся логика — в use cases.
 func StartTickers(
-	refreshTokens *usecase.RefreshTokens,
-	checkChats *usecase.CheckChats,
+	refreshTokens *usecase2.RefreshTokens,
+	checkChats *usecase2.CheckChats,
 	logger *zap.SugaredLogger,
 ) {
 	// Refresh токенов — раз в час (с запасом до истечения)
