@@ -2,7 +2,7 @@ package port
 
 import (
 	"context"
-	"prompter/ddd_reference/domain/entity"
+	"prompter/internal/domain/entity"
 )
 
 // TokenRefresher — порт для получения нового токена от внешней площадки.

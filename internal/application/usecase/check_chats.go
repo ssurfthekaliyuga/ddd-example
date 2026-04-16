@@ -3,8 +3,8 @@ package usecase
 import (
 	"context"
 	"fmt"
-	entity2 "prompter/internal/domain/entity"
-	port2 "prompter/internal/domain/port"
+	"prompter/internal/domain/entity"
+	"prompter/internal/domain/port"
 
 	"go.uber.org/zap"
 )
@@ -12,8 +12,8 @@ import (
 // CheckChats — use case: опросить чаты площадки, синхронизировать сообщения в БД.
 // Аналог текущего checkChatsTick, но без привязки к конкретной площадке.
 type CheckChats struct {
-	credStore   port2.CredentialStore
-	messengers  port2.MessengerRegistry
+	credStore   port.CredentialStore
+	messengers  port.MessengerRegistry
 	companyRepo CompanyRepo
 	chatRepo    ChatRepo
 	logger      *zap.SugaredLogger
@@ -22,20 +22,20 @@ type CheckChats struct {
 // CompanyRepo — минимальный интерфейс, нужный этому use case.
 // Определяем здесь, а не в port/, потому что это ad-hoc зависимость use case.
 type CompanyRepo interface {
-	ListActive(ctx context.Context) ([]entity2.Company, error)
+	ListActive(ctx context.Context) ([]entity.Company, error)
 }
 
 // ChatRepo — репозиторий для Interview/Call/Cue/Candidate.
 type ChatRepo interface {
-	FindOrCreateInterview(ctx context.Context, companyID int64, chatID string, vacancyID int64, candidateName string) (*entity2.Interview, error)
-	SaveIncomingMessage(ctx context.Context, msg *entity2.IncomingMessage) error
-	SaveOutgoingMessage(ctx context.Context, msg *entity2.OutgoingMessage) error
-	FindVacancyByExternalID(ctx context.Context, provider entity2.Provider, externalID int64) (*entity2.Vacancy, error)
+	FindOrCreateInterview(ctx context.Context, companyID int64, chatID string, vacancyID int64, candidateName string) (*entity.Interview, error)
+	SaveIncomingMessage(ctx context.Context, msg *entity.IncomingMessage) error
+	SaveOutgoingMessage(ctx context.Context, msg *entity.OutgoingMessage) error
+	FindVacancyByExternalID(ctx context.Context, provider entity.Provider, externalID int64) (*entity.Vacancy, error)
 }
 
 func NewCheckChats(
-	credStore port2.CredentialStore,
-	messengers port2.MessengerRegistry,
+	credStore port.CredentialStore,
+	messengers port.MessengerRegistry,
 	companyRepo CompanyRepo,
 	chatRepo ChatRepo,
 	logger *zap.SugaredLogger,
@@ -50,7 +50,7 @@ func NewCheckChats(
 }
 
 // Execute опрашивает все площадки для всех активных компаний.
-func (uc *CheckChats) Execute(ctx context.Context, provider entity2.Provider) error {
+func (uc *CheckChats) Execute(ctx context.Context, provider entity.Provider) error {
 	companies, err := uc.companyRepo.ListActive(ctx)
 	if err != nil {
 		return fmt.Errorf("list active companies: %w", err)
@@ -74,7 +74,7 @@ func (uc *CheckChats) Execute(ctx context.Context, provider entity2.Provider) er
 	return nil
 }
 
-func (uc *CheckChats) checkCompanyChats(ctx context.Context, company entity2.Company, messenger port2.Messenger) error {
+func (uc *CheckChats) checkCompanyChats(ctx context.Context, company entity.Company, messenger port.Messenger) error {
 	cred, err := uc.credStore.GetByCompanyAndProvider(ctx, company.ID, messenger.Provider())
 	if err != nil {
 		return fmt.Errorf("get credential: %w", err)
@@ -107,7 +107,7 @@ func (uc *CheckChats) checkCompanyChats(ctx context.Context, company entity2.Com
 
 		for _, msg := range chat.Messages {
 			if msg.Direction == "in" {
-				_ = uc.chatRepo.SaveIncomingMessage(ctx, &entity2.IncomingMessage{
+				_ = uc.chatRepo.SaveIncomingMessage(ctx, &entity.IncomingMessage{
 					InterviewID: interview.ID,
 					ExternalID:  msg.ExternalID,
 					AuthorID:    msg.AuthorID,
@@ -115,7 +115,7 @@ func (uc *CheckChats) checkCompanyChats(ctx context.Context, company entity2.Com
 					Body:        msg.Body,
 				})
 			} else {
-				_ = uc.chatRepo.SaveOutgoingMessage(ctx, &entity2.OutgoingMessage{
+				_ = uc.chatRepo.SaveOutgoingMessage(ctx, &entity.OutgoingMessage{
 					InterviewID: interview.ID,
 					ExternalID:  msg.ExternalID,
 					Body:        msg.Body,

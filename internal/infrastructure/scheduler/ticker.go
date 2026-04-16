@@ -2,7 +2,7 @@ package scheduler
 
 import (
 	"context"
-	usecase2 "prompter/internal/application/usecase"
+	"prompter/internal/application/usecase"
 	"prompter/internal/domain/entity"
 	"time"
 
@@ -13,8 +13,8 @@ import (
 // Scheduler — чистая infrastructure: он знает КОГДА запускать, но не знает ЧТО делать.
 // Вся логика — в use cases.
 func StartTickers(
-	refreshTokens *usecase2.RefreshTokens,
-	checkChats *usecase2.CheckChats,
+	refreshTokens *usecase.RefreshTokens,
+	checkChats *usecase.CheckChats,
 	logger *zap.SugaredLogger,
 ) {
 	// Refresh токенов — раз в час (с запасом до истечения)
